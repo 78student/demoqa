@@ -27,8 +27,8 @@ class BasePage:
     def forward(self):
         self.driver.forward()
 
-    def refresh(selfs):
+    def refresh(self):
         self.driver.refresh()
 
     def get_title(self):
-        self.driver.title
+        return self.driver.title

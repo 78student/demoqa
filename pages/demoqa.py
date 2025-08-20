@@ -24,3 +24,5 @@ class DemoQa(BasePage):
         self.btn_elements.click()
         return ElementsPage(self.driver)
 
+    def equal_title(self):
+        return self.get_title() == 'DEMOQA'
