@@ -64,6 +64,22 @@ class Webtables(BasePage):
 
     # endregion
 
+    # region table header
+    class TableHeader:
+        def __init__(self, header_element):
+            self.root = header_element
+
+        def get_columns(self):
+            return [item for item in self.root.find_elements(By.CSS_SELECTOR, 'div.rt-th')]
+
+        def get_column(self, col_id: str|int):
+            if col_id is str:
+                return next((col for col in self.get_columns() if col.text == col_id), None)
+            elif col_id is int:
+                return self.get_columns()[col_id]
+            return None
+    # endregion
+
     def __init__(self, driver):
         self.base_url = 'https://demoqa.com/webtables'
         super().__init__(driver, self.base_url)
@@ -80,6 +96,7 @@ class Webtables(BasePage):
         self.dialog_salary = WebElement(driver, '#salary')
         self.dialog_department = WebElement(driver, '#department')
         self.table_rows = WebElement(driver, 'div.rt-table > div.rt-tbody > div')
+        self.table_header = WebElement(driver, 'div.ReactTable > div.rt-table > div.rt-thead.-header > div')
 
     def click_add(self):
         self.btn_add.click_forse()
@@ -122,3 +139,5 @@ class Webtables(BasePage):
         rows = [self.TableRow(row) for row in self.table_rows.find_elements()]
         return [row for row in rows if not row.empty]
 
+    def get_header(self):
+        return self.TableHeader(self.table_header.find_element())
